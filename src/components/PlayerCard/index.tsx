@@ -2,12 +2,12 @@ import { ButtonIcon } from '@components/ButtonIcon';
 
 import { Container, Icon, Name } from './styles';
 
-type Props = {
+interface PlayerCardInterface {
     name: string;
     onRemove: () => void;
 }
 
-export function PlayerCard({ name, onRemove }: Props) {
+export function PlayerCard({ name, onRemove }: PlayerCardInterface) {
     return (
         <Container>
             <Icon

@@ -1,10 +1,10 @@
 import { Container, Message } from "./styles";
 
-type Props = {
+interface ListEmptyInterface {
     message: string;
 }
 
-export function ListEmpty({ message }: Props) {
+export function ListEmpty({ message }: ListEmptyInterface) {
     return (
         <Container>
             <Message>{message}</Message>

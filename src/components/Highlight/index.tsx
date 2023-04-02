@@ -1,11 +1,11 @@
 import { Container, Subtitle, Title } from "./styles";
 
-type Props = {
+interface HighlightInterface {
     title: string;
     subtitle: string;
 }
 
-export function Highlight({ title, subtitle }: Props) {
+export function Highlight({ title, subtitle }: HighlightInterface) {
     return (
         <Container>
             <Title>
