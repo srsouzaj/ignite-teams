@@ -1,17 +1,18 @@
 import { useState, useCallback } from 'react';
 import { Alert, FlatList } from 'react-native';
-
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { groupsGetAll } from '@storage/group/groupsGetAll';
-import { GroupCard } from '@components/GroupCard';
+
 import { Header } from '@components/Header';
+import { GroupCard } from '@components/GroupCard';
 import { Highlight } from '@components/Highlight';
 import { ListEmpty } from '@components/ListEmpty';
 import { Button } from '@components/Button';
+import { Loading } from '@components/Loading';
 
 import { Container } from './styles';
-import { Loading } from '@components/Loading';
+
 
 export function Groups() {
     const [isLoading, setIsLoading] = useState(true);
@@ -26,12 +27,16 @@ export function Groups() {
     async function fetchGroups() {
         try {
             setIsLoading(true);
+
             const data = await groupsGetAll();
             setGroups(data)
-            setIsLoading(false);
+
         } catch (error) {
             Alert.alert('Turmas', 'Não foi possível carregar as turmas');
             console.log(error);
+
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -67,7 +72,6 @@ export function Groups() {
                         )}
                     />
             }
-
             <Button
                 title='Criar nova turma'
                 onPress={handleNewGroup}
