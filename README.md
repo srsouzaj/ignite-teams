@@ -24,6 +24,13 @@ Para aprofundar ainda mais meus conhecimentos sendo alinhado com as novas e melh
 - [react-navigation/native-stack](https://reactnavigation.org/docs/native-stack-navigator/)
 - [react-native-async-storage/async-storage](https://www.npmjs.com/package/@react-native-async-storage/async-storage)
 
+
+## **🔖 Layout**
+
+Você pode visualizar o layout utilizado através do link abaixo:
+
+- [Layout](https://www.figma.com/file/o410njqkDFdPQO8VrQhc9t/Ignite-Teams-(Community)?node-id=37%3A6)
+
 ## **🚀** Como Executar
 
 Antes de baixar o projeto você vai precisar ter instalado na sua máquina as seguintes ferramentas:
