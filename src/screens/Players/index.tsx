@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { FlatList, Alert, TextInput, Keyboard } from 'react-native'
+import { FlatList, Alert, TextInput } from 'react-native'
 import { useRoute } from '@react-navigation/native';
-
 import { AppError } from '@utils/AppError';
+
 import { PlayerStorageDTO } from '@storage/player/PlayerStorageDTO';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 import { playersGetByGroupAndTeam } from '@storage/player/playersGetByGroupAndTeam';
+import { playerRemoveByGroup } from '@storage/player/playerRemoveByGroup';
 
 import { Header } from "@components/Header";
 import { Highlight } from "@components/Highlight";
@@ -22,10 +23,12 @@ interface RouteParamsInterface {
   group: string;
 }
 
+
 export function Players() {
   const [newPlayerName, setNewPlayerName] = useState('');
   const [team, setTeam] = useState('Time A');
   const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
+
   const route = useRoute();
 
   const { group } = route.params as RouteParamsInterface;
@@ -40,14 +43,12 @@ export function Players() {
       name: newPlayerName,
       team,
     }
-
     try {
       await playerAddByGroup(newPlayer, group);
-
       newPlayerNameInputRef.current?.blur();
 
       setNewPlayerName('');
-      await fetchPlayersByTeam();
+      fetchPlayersByTeam();
     } catch (error) {
       if (error instanceof AppError) {
         Alert.alert('Nova pessoa', error.message);
@@ -67,11 +68,22 @@ export function Players() {
     }
   }
 
+  async function handlePlayerRemove(playerName: string) {
+    try {
+      await playerRemoveByGroup(playerName, group);
+
+      fetchPlayersByTeam()
+
+    } catch (error) {
+      console.log(error);
+
+      Alert.alert('Remover pessoa', 'Não foi possível remover essa pessoa.');
+    }
+  }
+
   useEffect(() => {
     fetchPlayersByTeam();
   }, [team])
-
-
   return (
     <Container>
       <Header showBackButton />
@@ -79,7 +91,6 @@ export function Players() {
         title={group}
         subtitle="adicione a galera e separe os times"
       />
-
       <Form>
         <Input
           inputRef={newPlayerNameInputRef}
@@ -90,7 +101,6 @@ export function Players() {
           onSubmitEditing={handleAddPlayer}
           returnKeyType="done"
         />
-
         <ButtonIcon
           icon="add"
           onPress={handleAddPlayer}
@@ -119,7 +129,7 @@ export function Players() {
         renderItem={({ item }) => (
           <PlayerCard
             name={item.name}
-            onRemove={() => { }}
+            onRemove={() => handlePlayerRemove(item.name)}
           />
         )}
         ListEmptyComponent={() => (
