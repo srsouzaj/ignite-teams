@@ -14,6 +14,7 @@ import { useRoute } from '@react-navigation/native';
 import { AppError } from '@utils/AppError';
 import { playerAddByGroup } from '@storage/player/playerAddByGroup';
 import { playersGetByGroup } from '@storage/player/playersGetByGroup';
+import { playersGetByGroupAndTeam } from '@storage/player/playersGetByGroupAndTeam';
 
 interface RouteParamsInterface {
     group: string;
@@ -50,6 +51,16 @@ export function Players() {
                 console.log(error);
                 Alert.alert('Nova pessoa', 'Não foi possível adicionar.')
             }
+        }
+    }
+
+    async function fetchPlayersByTeam() {
+        try {
+            const playersByTeam = await playersGetByGroupAndTeam(group, team);
+            setPlayers(playersByTeam)
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Pessoas', 'Não foi possível carregar as pessoas do time selecionado.');
         }
     }
 
